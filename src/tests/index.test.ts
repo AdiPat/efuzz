@@ -51,4 +51,18 @@ describe("efuzz should", () => {
       "Threshold not provided. Using default 0.5."
     );
   });
+
+  it.each([undefined, null])(
+    "use threshold as 0.5 if threshold is %s",
+    async (threshold) => {
+      const consoleSpy = vi.spyOn(console, "log");
+      const query = "test";
+      const search = efuzz([]);
+      const result = await search(query, { threshold } as any);
+      expect(consoleSpy).toHaveBeenCalledOnce();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        "Threshold not provided. Using default 0.5."
+      );
+    }
+  );
 });
