@@ -63,7 +63,7 @@ describe("string-tools should", () => {
     });
   });
 
-  describe("computeAverageSimilarity should", () => {
+  describe("computeStringObjectSimilarity should", () => {
     it("return 0 if the object is empty", () => {
       const result = StringTools.computeStringObjectSimilarity("test", {});
       expect(result).toBe(0);

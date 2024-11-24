@@ -44,7 +44,7 @@ describe("efuzz should", () => {
     const consoleSpy = vi.spyOn(console, "log");
     const query = "test";
     const search = efuzz([]);
-    const result = await search(query);
+    await search(query);
     expect(consoleSpy).toHaveBeenCalledOnce();
     expect(consoleSpy).toHaveBeenCalledWith(
       "Threshold not provided. Using default 0.5."
@@ -57,7 +57,7 @@ describe("efuzz should", () => {
       const consoleSpy = vi.spyOn(console, "log");
       const query = "test";
       const search = efuzz([]);
-      const result = await search(query, { threshold } as any);
+      await search(query, { threshold } as any);
       expect(consoleSpy).toHaveBeenCalledOnce();
       expect(consoleSpy).toHaveBeenCalledWith(
         "Threshold not provided. Using default 0.5."
