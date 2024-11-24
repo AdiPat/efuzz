@@ -65,21 +65,21 @@ describe("efuzz should", () => {
     }
   );
 
-  it("should return correct fuzzy matches", async () => {
+  it("return correct fuzzy matches", async () => {
     const search = efuzz(["apple", "application", "orange"]);
     const results = await search("appl", { threshold: 0.6 });
 
     expect(results).toEqual(["apple", "application"]);
   });
 
-  it("should return an empty array for no matches", async () => {
+  it("return an empty array for no matches", async () => {
     const search = efuzz(["apple", "application", "orange"]);
     const results = await search("banana", { threshold: 0.8 });
 
     expect(results).toEqual([]);
   });
 
-  it("should correctly return the fuzzy matches for a set of objects and a string search query", async () => {
+  it("correctly return the fuzzy matches for a set of objects and a string search query", async () => {
     const records = [
       { name: "apple", category: "fruit", price: 1.2 },
       { name: "application", category: "software", price: 99.99 },
@@ -102,5 +102,27 @@ describe("efuzz should", () => {
       { name: "apple", category: "fruit", price: 1.2 },
       { name: "application", category: "software", price: 99.99 },
     ]);
+  });
+
+  it("return no matches for a set of objects and a mismatched string search query", async () => {
+    const records = [
+      { name: "apple", category: "fruit", price: 1.2 },
+      { name: "application", category: "software", price: 99.99 },
+      { name: "orange", category: "fruit", price: 0.8 },
+      { name: "banana", category: "fruit", price: 1.0 },
+      { name: "grapes", category: "fruit", price: 2.5 },
+      { name: "mango", category: "fruit", price: 1.8 },
+      { name: "kiwi", category: "fruit", price: 2.2 },
+      { name: "peach", category: "fruit", price: 1.5 },
+      { name: "pear", category: "fruit", price: 1.3 },
+      { name: "plum", category: "fruit", price: 1.0 },
+      { name: "pineapple", category: "fruit", price: 3.0 },
+    ];
+
+    const search = efuzz(records);
+
+    const results = await search("kamikaze", { threshold: 0.6 });
+
+    expect(results).toEqual([]);
   });
 });
