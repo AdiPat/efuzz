@@ -1,4 +1,8 @@
-import { computeSimilarity } from "./string-tools";
+import {
+  computeStringObjectSimilarity,
+  computeSimilarity,
+} from "./string-tools";
+import { isArrayofObjects } from "./utils";
 
 export const efuzz = (records: any[]) => {
   const search = async (
@@ -16,6 +20,15 @@ export const efuzz = (records: any[]) => {
       throw new Error(
         "Invalid threshold value. Threshold must be a number between 0 and 1."
       );
+    }
+
+    if (isArrayofObjects(records)) {
+      const results = records.filter((record) => {
+        const averageScore = computeStringObjectSimilarity(query, record);
+        return averageScore > threshold;
+      });
+
+      return results;
     }
 
     const results = records.filter((record) => {
