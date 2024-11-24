@@ -1,0 +1,22 @@
+{
+  "name": "efuzz",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "description": "`efuzz` is an in-memory fuzzy search library for Node.js (TypeScript). It provides a clean and intuitive API for implementing fuzzy searching over datasets.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js",
+    "test": "vitest --silent --coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.9.3",
+    "@vitest/coverage-v8": "^2.1.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.5"
+  }
+}
