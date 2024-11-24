@@ -16,6 +16,6 @@
     "skipLibCheck": true,
     "noEmitOnError": false
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "benchmarks/**/*"], // Include benchmark files
   "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.*"] // Exclude node_modules and test files
 }

@@ -13,16 +13,21 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^9.2.0",
+    "@types/benchmark": "^2.1.5",
     "@types/fast-levenshtein": "^0.0.4",
     "@types/jaro-winkler": "^0.2.3",
     "@types/node": "^22.9.3",
     "@vitest/coverage-v8": "^2.1.5",
+    "fuzzy-search": "^3.2.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "vitest": "^2.1.5"
   },
   "dependencies": {
     "@skyra/jaro-winkler": "^1.1.1",
-    "fast-levenshtein": "^3.0.0"
+    "benchmark": "^2.1.4",
+    "fast-levenshtein": "^3.0.0",
+    "fuzzysort": "^3.1.0"
   }
 }
