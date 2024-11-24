@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { computeJaroWinklerDistance, computeSimilarity } from "../string-tools";
+import {
+  computeStringObjectSimilarity,
+  computeJaroWinklerDistance,
+  computeSimilarity,
+} from "../string-tools";
 
 describe("string-tools should", () => {
   describe("computeSimilarity should", () => {
@@ -60,6 +64,35 @@ describe("string-tools should", () => {
       const s2 = "sitting";
       const result = computeJaroWinklerDistance(s1, s2);
       expect(result).toBeGreaterThan(0.7); // Partial similarity
+    });
+  });
+
+  describe("computeAverageSimilarity should", () => {
+    it("return 0 if the object is empty", () => {
+      const result = computeStringObjectSimilarity("test", {});
+      expect(result).toBe(0);
+    });
+
+    it("return 0 if the object is null", () => {
+      const result = computeStringObjectSimilarity("test", null);
+      expect(result).toBe(0);
+    });
+
+    it("return 0 if the object is not an object", () => {
+      const result = computeStringObjectSimilarity("test", {
+        title: "Test",
+        description: "This is a test",
+      });
+      expect(result).toBeGreaterThan(0.5);
+    });
+
+    it("return the correct average similarity score for an object", () => {
+      const result = computeStringObjectSimilarity("appl", {
+        name: "apple",
+        category: "fruit",
+        price: 1.2,
+      });
+      expect(result).toBeGreaterThan(0.5);
     });
   });
 });
