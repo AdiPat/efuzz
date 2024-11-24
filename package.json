@@ -13,10 +13,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/fast-levenshtein": "^0.0.4",
     "@types/node": "^22.9.3",
     "@vitest/coverage-v8": "^2.1.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "vitest": "^2.1.5"
+  },
+  "dependencies": {
+    "fast-levenshtein": "^3.0.0"
   }
 }
