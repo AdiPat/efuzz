@@ -1,4 +1,9 @@
 import { get as levenshtein } from "fast-levenshtein";
+import { jaroWinkler } from "@skyra/jaro-winkler";
+
+export const computeJaroWinklerDistance = (s: string, t: string): number => {
+  return jaroWinkler(s, t);
+};
 
 export const computeSimilarity = (s: string, t: string): number => {
   if (s === t) {
