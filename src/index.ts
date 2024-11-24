@@ -1,9 +1,6 @@
-import { CONSTANTS } from "./constants";
-import {
-  computeStringObjectSimilarity,
-  computeSimilarity,
-} from "./string-tools";
-import { isArrayofObjects } from "./utils";
+import * as Constants from "./constants";
+import * as StringTools from "./string-tools";
+import * as Utils from "./utils";
 
 export const efuzz = (records: any[]) => {
   const search = async (
@@ -12,7 +9,7 @@ export const efuzz = (records: any[]) => {
   ): Promise<any[]> => {
     const threshold = validateAndGetThreshold(options?.threshold);
 
-    if (isArrayofObjects(records)) {
+    if (Utils.isArrayofObjects(records)) {
       return handleObjectArraySearch(records, query, threshold);
     }
 
@@ -25,7 +22,7 @@ export const efuzz = (records: any[]) => {
 const validateAndGetThreshold = (threshold: number | undefined): number => {
   if (!threshold) {
     console.log("Threshold not provided. Using default 0.5.");
-    return CONSTANTS.DEFAULT_THRESHOLD;
+    return Constants.DEFAULT_THRESHOLD;
   }
 
   if (threshold && (threshold < 0 || threshold > 1)) {
@@ -43,7 +40,7 @@ const handleStringArraySearch = (
   threshold: number
 ) => {
   const results = records.filter((record) => {
-    const score = computeSimilarity(query, record);
+    const score = StringTools.computeSimilarity(query, record);
     return score > threshold;
   });
 
@@ -56,7 +53,10 @@ const handleObjectArraySearch = (
   threshold: number
 ) => {
   const results = records.filter((record) => {
-    const averageScore = computeStringObjectSimilarity(query, record);
+    const averageScore = StringTools.computeStringObjectSimilarity(
+      query,
+      record
+    );
     return averageScore > threshold;
   });
 

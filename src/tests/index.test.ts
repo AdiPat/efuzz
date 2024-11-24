@@ -1,6 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { efuzz } from "../index";
-import { afterEach, beforeEach } from "node:test";
 
 describe("efuzz should", () => {
   beforeEach(() => {
