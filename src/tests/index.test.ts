@@ -65,4 +65,18 @@ describe("efuzz should", () => {
       );
     }
   );
+
+  it("should return correct fuzzy matches", async () => {
+    const search = efuzz(["apple", "application", "orange"]);
+    const results = await search("appl", { threshold: 0.6 });
+
+    expect(results).toEqual(["apple", "application"]);
+  });
+
+  it("should return an empty array for no matches", async () => {
+    const search = efuzz(["apple", "application", "orange"]);
+    const results = await search("banana", { threshold: 0.8 });
+
+    expect(results).toEqual([]);
+  });
 });

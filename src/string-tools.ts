@@ -11,5 +11,8 @@ export const computeSimilarity = (s: string, t: string): number => {
   }
   const distance = levenshtein(s, t);
   const maxLength = Math.max(s.length, t.length);
-  return 1 - distance / maxLength;
+  const levScore = 1 - distance / maxLength;
+  const jwScore = computeJaroWinklerDistance(s, t);
+  const netScore = (levScore + jwScore) / 2;
+  return netScore;
 };

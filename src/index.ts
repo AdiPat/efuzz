@@ -1,6 +1,8 @@
-export const efuzz = (_records: any[]) => {
+import { computeSimilarity } from "./string-tools";
+
+export const efuzz = (records: any[]) => {
   const search = async (
-    _query: string,
+    query: string,
     options?: { threshold?: number }
   ): Promise<any[]> => {
     let { threshold } = options || {};
@@ -16,7 +18,11 @@ export const efuzz = (_records: any[]) => {
       );
     }
 
-    return [];
+    const results = records.filter((record) => {
+      const score = computeSimilarity(query, record);
+      return score > threshold;
+    });
+    return results;
   };
 
   return search;
