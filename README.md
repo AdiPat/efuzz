@@ -1,4 +1,4 @@
-# efuzz
+# eFuzz 🔎
 
 `efuzz` is an in-memory fuzzy search library for Node.js (TypeScript). It provides a clean and intuitive API for implementing fuzzy searching over datasets.
 
