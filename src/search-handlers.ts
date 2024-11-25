@@ -1,45 +1,52 @@
 import * as StringTools from "./string-tools";
 import * as Utils from "./utils";
 
+const handleTwoTypedSearch = (
+  records: any[],
+  query: string | Record<string, any>,
+  threshold: number,
+  typedScoreCalculator: Function
+) =>
+  records.filter((record) => {
+    const averageScore = typedScoreCalculator(query, record);
+    return averageScore > threshold;
+  });
+
 const handleObjectArraySearch = (
   records: any[],
   query: string | Record<string, any>,
   threshold: number
-) => {
-  return records.filter((record) => {
-    const score = StringTools.computeObjectSimilarity(query, record);
-    return score > threshold;
-  });
-};
+) =>
+  handleTwoTypedSearch(
+    records,
+    query,
+    threshold,
+    StringTools.computeObjectSimilarity
+  );
 
 const handleStringArraySearch = (
   records: string[],
   query: string,
   threshold: number
-) => {
-  const results = records.filter((record) => {
-    const score = StringTools.computeSimilarity(query, record);
-    return score > threshold;
-  });
-
-  return results;
-};
+) =>
+  handleTwoTypedSearch(
+    records,
+    query,
+    threshold,
+    StringTools.computeSimilarity
+  );
 
 const handleStringObjectArraySearch = (
   records: any[],
   query: string,
   threshold: number
-) => {
-  const results = records.filter((record) => {
-    const averageScore = StringTools.computeStringObjectSimilarity(
-      query,
-      record
-    );
-    return averageScore > threshold;
-  });
-
-  return results;
-};
+) =>
+  handleTwoTypedSearch(
+    records,
+    query,
+    threshold,
+    StringTools.computeStringObjectSimilarity
+  );
 
 const searchHandlers = {
   stringArray: handleStringArraySearch,
