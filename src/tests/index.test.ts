@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { efuzz } from "../index";
+import * as eFuzz from "../index";
+import { Utils } from "../utils";
 
 describe("efuzz should", () => {
   beforeEach(() => {
@@ -256,5 +258,22 @@ describe("efuzz should", () => {
     const search = efuzz(records);
     const results = await search("p", { threshold: 0 });
     expect(results.length).toBe(5);
+  });
+
+  it("throws a generic error if something fails in the search method", async () => {
+    const errorMessage = "Arbitrary Error Message";
+    const validateAndGetThresholdSpy = vi.spyOn(
+      Utils,
+      "validateAndGetThreshold"
+    );
+    validateAndGetThresholdSpy.mockImplementation((): any => {
+      throw new Error(errorMessage);
+    });
+    const search = efuzz([]);
+    const promise = search("apple", { threshold: 0.5 });
+
+    await expect(promise).rejects.toThrowError(
+      `Error: eFuzz search failed due to '${errorMessage}'`
+    );
   });
 });

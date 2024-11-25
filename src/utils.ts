@@ -1,6 +1,6 @@
 import * as Constants from "./constants";
 
-export const isArrayofObjects = (arr: any[]): boolean => {
+const isArrayofObjects = (arr: any[]): boolean => {
   if (arr.length === 0) {
     return false;
   }
@@ -11,9 +11,7 @@ export const isArrayofObjects = (arr: any[]): boolean => {
   );
 };
 
-export const validateAndGetThreshold = (
-  threshold: number | undefined
-): number => {
+const validateAndGetThreshold = (threshold: number | undefined): number => {
   if (!threshold) {
     console.log("Threshold not provided. Using default 0.5.");
     return Constants.DEFAULT_THRESHOLD;
@@ -26,4 +24,9 @@ export const validateAndGetThreshold = (
   }
 
   return threshold;
+};
+
+export const Utils = {
+  isArrayofObjects,
+  validateAndGetThreshold,
 };

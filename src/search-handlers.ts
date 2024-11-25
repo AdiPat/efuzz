@@ -1,5 +1,5 @@
 import * as StringTools from "./string-tools";
-import * as Utils from "./utils";
+import { Utils } from "./utils";
 
 const handleTwoTypedSearch = (
   records: any[],
