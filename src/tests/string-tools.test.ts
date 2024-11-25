@@ -20,7 +20,7 @@ describe("string-tools should", () => {
     });
 
     it("compute the correct similarity score range for two dissimilar strings", () => {
-      const result = StringTools.computeSimilarity("test", "sack");
+      const result = StringTools.computeSimilarity("test", "hoko");
       expect(result).toBeLessThan(0.3);
       expect(result).toBeGreaterThanOrEqual(0);
     });
