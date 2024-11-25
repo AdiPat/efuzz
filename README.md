@@ -7,6 +7,7 @@
 - **In-Memory Efficiency**: No external databases or storage dependencies.
 - **Customizable Matching**: Define your own thresholds and search algorithms.
 - **TypeScript Support**: Fully typed API for better developer experience.
+- **Custom Scoring Logic**: Supply your own scoring function to customize the search results as per your requirements.
 
 ## Installation
 
@@ -20,7 +21,7 @@ npm install efuzz
 import { efuzz } from "efuzz";
 
 const search = efuzz(["apple", "application", "orange"]);
-const results = search("appl", { threshold: 0.8 });
+const results = search("appl", { threshold: 0.6 });
 console.log(results); // ["apple", "application"]
 ```
 
