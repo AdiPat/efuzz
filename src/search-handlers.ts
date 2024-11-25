@@ -48,7 +48,7 @@ const handleStringObjectArraySearch = (
     StringTools.computeStringObjectSimilarity
   );
 
-const searchHandlers = {
+export const searchHandlers = {
   stringArray: handleStringArraySearch,
   objectArray: handleObjectArraySearch,
   stringObjectArray: handleStringObjectArraySearch,
