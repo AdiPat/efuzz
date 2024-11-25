@@ -37,3 +37,29 @@ export const computeStringObjectSimilarity = (
   computeScore(query, obj);
   return maxScore;
 };
+
+export const computeObjectSimilarity = (p: any, q: any): number => {
+  let totalScore = 0;
+  let fieldCount = 0;
+
+  const computeScore = (obj1: any, obj2: any) => {
+    for (const key in obj1) {
+      if (obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)) {
+        if (
+          typeof obj1[key] === "object" &&
+          obj1[key] !== null &&
+          typeof obj2[key] === "object" &&
+          obj2[key] !== null
+        ) {
+          computeScore(obj1[key], obj2[key]);
+        } else {
+          totalScore += computeSimilarity(String(obj1[key]), String(obj2[key]));
+          fieldCount++;
+        }
+      }
+    }
+  };
+
+  computeScore(p, q);
+  return fieldCount === 0 ? 0 : totalScore / fieldCount;
+};

@@ -103,5 +103,91 @@ describe("string-tools should", () => {
       });
       expect(result).toBeGreaterThan(0.5);
     });
+
+    it("return the correct average similarity score for a nested object with matching text inside array", () => {
+      const result = StringTools.computeStringObjectSimilarity("re", {
+        name: "apple",
+        category: "fruit",
+        price: 1.2,
+        details: {
+          color: "pink",
+          origin: "India",
+          tags: ["red", "fruit", "apple"],
+        },
+      });
+      expect(result).toBeGreaterThan(0.5);
+    });
+  });
+
+  describe("computeObjectSimilarity", () => {
+    it("return 0 if both the objects are empty", () => {
+      const result = StringTools.computeObjectSimilarity({}, {});
+      expect(result).toBe(0);
+    });
+
+    it("return 0 if the objects are null", () => {
+      const result = StringTools.computeObjectSimilarity(null, null);
+      expect(result).toBe(0);
+    });
+
+    it("return the correct similarity score for two similar objects", () => {
+      const result = StringTools.computeObjectSimilarity(
+        { title: "Test", description: "This is a test" },
+        { title: "Test", description: "This is a test" }
+      );
+      expect(result).toBe(1);
+    });
+
+    it("return the correct similarity score for two dissimilar objects", () => {
+      const result = StringTools.computeObjectSimilarity(
+        { title: "Test", description: "This is a test" },
+        { title: "Hello", description: "World" }
+      );
+      expect(result).toBeLessThan(0.3);
+    });
+
+    it("return the correct similarity score for two similar nested objects", () => {
+      const result = StringTools.computeObjectSimilarity(
+        {
+          title: "Test",
+          description: "This is a test",
+          details: {
+            color: "red",
+            origin: "India",
+          },
+        },
+        {
+          title: "Test",
+          description: "This is a test",
+          details: {
+            color: "red",
+            origin: "India",
+          },
+        }
+      );
+      expect(result).toBe(1);
+    });
+
+    it("return the correct similarity score for two dissimilar nested objects", () => {
+      const result = StringTools.computeObjectSimilarity(
+        {
+          title: "Test",
+          description: "This is a test",
+          details: {
+            color: "red",
+            origin: "India",
+          },
+        },
+        {
+          title: "Test",
+          description: "This is a test",
+          details: {
+            color: "blue",
+            origin: "China",
+          },
+        }
+      );
+      expect(result).toBeGreaterThan(0.6);
+    });
   });
 });
