@@ -1,5 +1,4 @@
 import { getSearchHandler } from "./search-handlers";
-import * as Constants from "./constants";
 import { Utils } from "./utils";
 
 export const efuzz = (records: any[]) => {
@@ -15,16 +14,9 @@ export const efuzz = (records: any[]) => {
     try {
       const includeScores = options?.includeScores ?? false;
       const threshold = Utils.validateAndGetThreshold(options?.threshold);
-
       const searchHandler = getSearchHandler(query, records);
       const results = searchHandler(records, query, threshold);
-      const sortedResults = results.sort((a: any, b: any) => b.score - a.score);
-
-      if (includeScores) {
-        return sortedResults.slice(0, count);
-      }
-
-      return sortedResults.slice(0, count).map((result: any) => result.record);
+      return Utils.prepareSearchResults(results, count, includeScores);
     } catch (error) {
       console.error(error);
       throw new Error(`Error: eFuzz search failed due to '${error.message}'`);

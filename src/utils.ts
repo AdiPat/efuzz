@@ -49,8 +49,21 @@ const validateAndGetCountAndTotalRecords = (
   };
 };
 
+const prepareSearchResults = (
+  records: any,
+  count: number,
+  includeScores: boolean
+): any[] => {
+  const sortedResults = records.sort((a: any, b: any) => b.score - a.score);
+  const requiredResults = sortedResults.slice(0, count);
+  return includeScores
+    ? requiredResults
+    : requiredResults.map((result: any) => result.record);
+};
+
 export const Utils = {
   isArrayofObjects,
   validateAndGetThreshold,
   validateAndGetCountAndTotalRecords,
+  prepareSearchResults,
 };
