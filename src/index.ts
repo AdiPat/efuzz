@@ -1,15 +1,11 @@
+import { eFuzzSearchOptions } from "./models";
 import { getSearchHandler } from "./search-handlers";
 import { Utils } from "./utils";
 
 export const efuzz = (records: any[]) => {
   const search = async (
     query: string | Record<string, any>,
-    options?: {
-      threshold?: number;
-      count?: number;
-      includeScores?: boolean;
-      scoreFunction?: (s: string, t: string) => number;
-    }
+    options?: eFuzzSearchOptions
   ): Promise<any[]> => {
     const { count } = Utils.validateAndGetCountAndTotalRecords(
       options?.count,
