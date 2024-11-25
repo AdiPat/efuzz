@@ -449,4 +449,14 @@ describe("efuzz should", () => {
     });
     expect(results).toEqual([]);
   });
+
+  it("match similar matching strings with interchanged words correctly", async () => {
+    const records = ["John Manager", "Manager Jane"];
+    const search = efuzz(records);
+    const results = await search("Manager John", {
+      threshold: 0,
+      count: 2,
+    });
+    expect(results).toEqual(["Manager Jane", "John Manager"]);
+  });
 });
