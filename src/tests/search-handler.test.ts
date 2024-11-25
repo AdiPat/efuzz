@@ -11,7 +11,7 @@ describe("search-handler should", () => {
   });
 
   describe("getSearchHandler should", () => {
-    it("return stringArray handler for string query and string array records", () => {
+    it("return stringObjectArray handler for string query and string array records", () => {
       const query = "test";
       const records = [{ a: 1 }, { b: 2 }];
       const searchHandler = getSearchHandler(query, records);
@@ -25,7 +25,7 @@ describe("search-handler should", () => {
       expect(searchHandler).toEqual(searchHandlers.stringArray);
     });
 
-    it("return stringArray handler for string query and string array records", () => {
+    it("return objectArray handler for string query and string array records", () => {
       const query = { a: 1 };
       const records = [{ a: 1 }, { b: 2 }];
       const searchHandler = getSearchHandler(query, records);
