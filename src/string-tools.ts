@@ -13,7 +13,7 @@ export const computeSimilarity = (s: string, t: string): number => {
   const maxLength = Math.max(s.length, t.length);
   const levScore = 1 - distance / maxLength;
   const jwScore = computeJaroWinklerDistance(s, t);
-  const netScore = (levScore + jwScore) / 2;
+  const netScore = Math.max(levScore, jwScore);
   return netScore;
 };
 

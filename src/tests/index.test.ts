@@ -96,7 +96,7 @@ describe("efuzz should", () => {
 
     const search = efuzz(records);
 
-    const results = await search("appl", { threshold: 0.6 });
+    const results = await search("appl", { threshold: 0.6, count: 2 });
 
     expect(results).toEqual([
       { name: "apple", category: "fruit", price: 1.2 },
@@ -118,11 +118,8 @@ describe("efuzz should", () => {
       { name: "plum", category: "fruit", price: 1.0 },
       { name: "pineapple", category: "fruit", price: 3.0 },
     ];
-
     const search = efuzz(records);
-
-    const results = await search("kamikaze", { threshold: 0.6 });
-
+    const results = await search("zolo", { threshold: 0.6 });
     expect(results).toEqual([]);
   });
 
@@ -169,15 +166,6 @@ describe("efuzz should", () => {
 
     expect(results).toMatchObject([
       {
-        name: "application",
-        category: "software",
-        price: 99.99,
-        details: {
-          color: "blue",
-          origin: "USA",
-        },
-      },
-      {
         name: "orange",
         category: "fruit",
         price: 0.8,
@@ -186,6 +174,68 @@ describe("efuzz should", () => {
           origin: "Spain",
         },
       },
+      {
+        name: "application",
+        category: "software",
+        price: 99.99,
+        details: {
+          color: "blue",
+          origin: "USA",
+        },
+      },
+    ]);
+  });
+
+  it.each([
+    [2, 2, "ap"],
+    [8, 8, "an"],
+    [8, 7, "p"],
+    [2, 2, "ki"],
+  ])(
+    "returns the specified count (%s) of results (expected: %s) when specified in the options for query (%s)",
+    async (count, expectedCount, query) => {
+      const records = [
+        { name: "apple", category: "fruit", price: 1.2 },
+        { name: "application", category: "software", price: 99.99 },
+        { name: "orange", category: "fruit", price: 0.8 },
+        { name: "banana", category: "fruit", price: 1.0 },
+        { name: "grapes", category: "fruit", price: 2.5 },
+        { name: "mango", category: "fruit", price: 1.8 },
+        { name: "kiwi", category: "fruit", price: 2.2 },
+        { name: "peach", category: "fruit", price: 1.5 },
+        { name: "pear", category: "fruit", price: 1.3 },
+        { name: "plum", category: "fruit", price: 1.0 },
+        { name: "pineapple", category: "fruit", price: 3.0 },
+      ];
+
+      const search = efuzz(records);
+      const results = await search(query, { threshold: 0.3, count });
+      expect(results.length).toBe(expectedCount);
+    }
+  );
+
+  it("should return the results in sorted order by score when count is specified", async () => {
+    const records = [
+      { name: "apple", category: "fruit", price: 1.2 },
+      { name: "application", category: "software", price: 99.99 },
+      { name: "orange", category: "fruit", price: 0.8 },
+      { name: "banana", category: "fruit", price: 1.0 },
+      { name: "grapes", category: "fruit", price: 2.5 },
+      { name: "mango", category: "fruit", price: 1.8 },
+      { name: "kiwi", category: "fruit", price: 2.2 },
+      { name: "peach", category: "fruit", price: 1.5 },
+      { name: "pear", category: "fruit", price: 1.3 },
+      { name: "plum", category: "fruit", price: 1.0 },
+      { name: "pineapple", category: "fruit", price: 3.0 },
+    ];
+
+    const search = efuzz(records);
+    const results = await search("pp", { threshold: 0.3, count: 4 });
+    expect(results).toEqual([
+      { name: "apple", category: "fruit", price: 1.2 },
+      { name: "pineapple", category: "fruit", price: 3.0 },
+      { name: "application", category: "software", price: 99.99 },
+      { name: "pear", category: "fruit", price: 1.3 },
     ]);
   });
 });

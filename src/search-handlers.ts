@@ -7,10 +7,15 @@ const handleTwoTypedSearch = (
   threshold: number,
   typedScoreCalculator: Function
 ) =>
-  records.filter((record) => {
-    const averageScore = typedScoreCalculator(query, record);
-    return averageScore > threshold;
-  });
+  records
+    .filter((record) => {
+      const averageScore = typedScoreCalculator(query, record);
+      return averageScore > threshold;
+    })
+    .map((record) => {
+      const score = typedScoreCalculator(query, record);
+      return { record, score };
+    });
 
 const handleObjectArraySearch = (
   records: any[],
