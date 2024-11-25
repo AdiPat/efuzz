@@ -103,5 +103,19 @@ describe("string-tools should", () => {
       });
       expect(result).toBeGreaterThan(0.5);
     });
+
+    it("return the correct average similarity score for a nested object with matching text inside array", () => {
+      const result = StringTools.computeStringObjectSimilarity("re", {
+        name: "apple",
+        category: "fruit",
+        price: 1.2,
+        details: {
+          color: "pink",
+          origin: "India",
+          tags: ["red", "fruit", "apple"],
+        },
+      });
+      expect(result).toBeGreaterThan(0.5);
+    });
   });
 });
