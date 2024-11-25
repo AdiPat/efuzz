@@ -1,1 +1,2 @@
 export const DEFAULT_THRESHOLD = 0.5;
+export const DEFAULT_RECORDS_RETURN_COUNT = 5;
