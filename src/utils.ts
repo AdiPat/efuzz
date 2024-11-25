@@ -26,7 +26,31 @@ const validateAndGetThreshold = (threshold: number | undefined): number => {
   return threshold;
 };
 
+const validateAndGetCountAndTotalRecords = (
+  count: number | undefined,
+  records: any[]
+): {
+  count: number;
+  totalRecords: number;
+} => {
+  const totalRecords = records.length;
+  count =
+    count ?? Math.min(Constants.DEFAULT_RECORDS_RETURN_COUNT, totalRecords);
+
+  if (count > totalRecords) {
+    throw new Error(
+      `Count (${count}) cannot be greater than the number of records (${totalRecords}).`
+    );
+  }
+
+  return {
+    count,
+    totalRecords,
+  };
+};
+
 export const Utils = {
   isArrayofObjects,
   validateAndGetThreshold,
+  validateAndGetCountAndTotalRecords,
 };

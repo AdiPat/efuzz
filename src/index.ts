@@ -7,16 +7,10 @@ export const efuzz = (records: any[]) => {
     query: string | Record<string, any>,
     options?: { threshold?: number; count?: number; includeScores?: boolean }
   ): Promise<any[]> => {
-    const totalRecords = records.length;
-    const count =
-      options?.count ??
-      Math.min(Constants.DEFAULT_RECORDS_RETURN_COUNT, totalRecords);
-
-    if (count > totalRecords) {
-      throw new Error(
-        `Count (${count}) cannot be greater than the number of records (${totalRecords}).`
-      );
-    }
+    const { count } = Utils.validateAndGetCountAndTotalRecords(
+      options?.count,
+      records
+    );
 
     try {
       const includeScores = options?.includeScores ?? false;
