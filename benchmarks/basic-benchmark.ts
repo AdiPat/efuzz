@@ -2,7 +2,7 @@ import fuzzysort from "fuzzysort";
 import * as Benchmark from "benchmark";
 import { faker } from "@faker-js/faker";
 import { efuzz } from "../src";
-import { BenchmarkFixtureModule } from "./benchmark_fixture";
+import { BenchmarkFixtureModule } from "./benchmark-fixture";
 
 const createRandomFruit = () => {
   return {

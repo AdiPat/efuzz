@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { BasicBenchmarkModule, BasicBenchmarkRunner } from "../basic_benchmark";
-import { BenchmarkFixtureModule } from "../benchmark_fixture";
+import { BasicBenchmarkModule, BasicBenchmarkRunner } from "../basic-benchmark";
+import { BenchmarkFixtureModule } from "../benchmark-fixture";
 
 describe("efuzz should", () => {
   beforeEach(() => {
