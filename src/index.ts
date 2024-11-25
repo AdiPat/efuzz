@@ -4,10 +4,17 @@ import * as Utils from "./utils";
 
 export const efuzz = (records: any[]) => {
   const search = async (
-    query: string,
+    query: string | Record<string, any>,
     options?: { threshold?: number }
   ): Promise<any[]> => {
     const threshold = validateAndGetThreshold(options?.threshold);
+
+    if (typeof query === "object") {
+      return records.filter((record) => {
+        const score = StringTools.computeObjectSimilarity(query, record);
+        return score > threshold;
+      });
+    }
 
     if (Utils.isArrayofObjects(records)) {
       return handleObjectArraySearch(records, query, threshold);
