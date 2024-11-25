@@ -125,4 +125,67 @@ describe("efuzz should", () => {
 
     expect(results).toEqual([]);
   });
+
+  it("return correct fuzzy matches for a set of objects and an object search query", async () => {
+    const records = [
+      {
+        name: "apple",
+        category: "fruit",
+        price: 1.2,
+        details: {
+          color: "red",
+          origin: "India",
+        },
+      },
+      {
+        name: "application",
+        category: "software",
+        price: 99.99,
+        details: {
+          color: "blue",
+          origin: "USA",
+        },
+      },
+      {
+        name: "orange",
+        category: "fruit",
+        price: 0.8,
+        details: {
+          color: "orange",
+          origin: "Spain",
+        },
+      },
+    ];
+
+    const search = efuzz(records);
+
+    const results = await search(
+      {
+        name: "orange",
+        category: "software",
+      },
+      { threshold: 0.6 }
+    );
+
+    expect(results).toMatchObject([
+      {
+        name: "application",
+        category: "software",
+        price: 99.99,
+        details: {
+          color: "blue",
+          origin: "USA",
+        },
+      },
+      {
+        name: "orange",
+        category: "fruit",
+        price: 0.8,
+        details: {
+          color: "orange",
+          origin: "Spain",
+        },
+      },
+    ]);
+  });
 });
