@@ -1,3 +1,4 @@
+import { ScoreFunction } from "./models";
 import * as StringTools from "./string-tools";
 import { Utils } from "./utils";
 
@@ -5,46 +6,58 @@ const handleTwoTypedSearch = (
   records: any[],
   query: string | Record<string, any>,
   threshold: number,
-  typedScoreCalculator: Function
+  typedScoreCalculator: Function,
+  scoreFunction: ScoreFunction
 ) =>
   records
-    .map((record) => ({ record, score: typedScoreCalculator(query, record) }))
+    .map((record) => ({
+      record,
+      score: typedScoreCalculator(query, record, {
+        scoreFunction,
+      }),
+    }))
     .filter((recordWithScore) => recordWithScore.score >= threshold);
 
 const handleObjectArraySearch = (
   records: any[],
   query: string | Record<string, any>,
-  threshold: number
+  threshold: number,
+  scoreFunction: ScoreFunction
 ) =>
   handleTwoTypedSearch(
     records,
     query,
     threshold,
-    StringTools.computeObjectSimilarity
+    StringTools.computeObjectSimilarity,
+    scoreFunction
   );
 
 const handleStringArraySearch = (
   records: string[],
   query: string,
-  threshold: number
+  threshold: number,
+  scoreFunction: ScoreFunction
 ) =>
   handleTwoTypedSearch(
     records,
     query,
     threshold,
-    StringTools.computeSimilarity
+    StringTools.computeSimilarity,
+    scoreFunction
   );
 
 const handleStringObjectArraySearch = (
   records: any[],
   query: string,
-  threshold: number
+  threshold: number,
+  scoreFunction: ScoreFunction
 ) =>
   handleTwoTypedSearch(
     records,
     query,
     threshold,
-    StringTools.computeStringObjectSimilarity
+    StringTools.computeStringObjectSimilarity,
+    scoreFunction
   );
 
 export const searchHandlers = {

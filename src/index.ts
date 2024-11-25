@@ -4,18 +4,25 @@ import { Utils } from "./utils";
 export const efuzz = (records: any[]) => {
   const search = async (
     query: string | Record<string, any>,
-    options?: { threshold?: number; count?: number; includeScores?: boolean }
+    options?: {
+      threshold?: number;
+      count?: number;
+      includeScores?: boolean;
+      scoreFunction?: (s: string, t: string) => number;
+    }
   ): Promise<any[]> => {
     const { count } = Utils.validateAndGetCountAndTotalRecords(
       options?.count,
       records
     );
 
+    const scoreFunction = options?.scoreFunction ?? undefined;
+
     try {
       const includeScores = options?.includeScores ?? false;
       const threshold = Utils.validateAndGetThreshold(options?.threshold);
       const searchHandler = getSearchHandler(query, records);
-      const results = searchHandler(records, query, threshold);
+      const results = searchHandler(records, query, threshold, scoreFunction);
       return Utils.prepareSearchResults(results, count, includeScores);
     } catch (error) {
       console.error(error);

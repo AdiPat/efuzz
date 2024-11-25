@@ -1,5 +1,6 @@
 import { get as levenshtein } from "fast-levenshtein";
 import { jaroWinkler } from "@skyra/jaro-winkler";
+import { ScoreFunction } from "./models";
 
 export const computeJaroWinklerDistance = (s: string, t: string): number => {
   return jaroWinkler(s, t);
@@ -19,8 +20,12 @@ export const computeSimilarity = (s: string, t: string): number => {
 
 export const computeStringObjectSimilarity = (
   query: string,
-  obj: any
+  obj: any,
+  options?: {
+    scoreFunction: ScoreFunction;
+  }
 ): number => {
+  const scoreFunction = options?.scoreFunction ?? computeSimilarity;
   let maxScore = 0;
 
   const computeScore = (query: string, obj: any) => {
@@ -28,7 +33,7 @@ export const computeStringObjectSimilarity = (
       if (typeof obj[key] === "object" && obj[key] !== null) {
         computeScore(query, obj[key]);
       } else {
-        const curScore = computeSimilarity(query, String(obj[key]));
+        const curScore = scoreFunction(query, String(obj[key]));
         maxScore = Math.max(maxScore, curScore);
       }
     }
@@ -38,7 +43,14 @@ export const computeStringObjectSimilarity = (
   return maxScore;
 };
 
-export const computeObjectSimilarity = (p: any, q: any): number => {
+export const computeObjectSimilarity = (
+  p: any,
+  q: any,
+  options?: {
+    scoreFunction: ScoreFunction;
+  }
+): number => {
+  const scoreFunction = options?.scoreFunction ?? computeSimilarity;
   let totalScore = 0;
   let fieldCount = 0;
 
@@ -53,7 +65,7 @@ export const computeObjectSimilarity = (p: any, q: any): number => {
         ) {
           computeScore(obj1[key], obj2[key]);
         } else {
-          totalScore += computeSimilarity(String(obj1[key]), String(obj2[key]));
+          totalScore += scoreFunction(String(obj1[key]), String(obj2[key]));
           fieldCount++;
         }
       }
