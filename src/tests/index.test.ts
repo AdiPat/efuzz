@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { efuzz } from "../index";
-import * as eFuzz from "../index";
 import { Utils } from "../utils";
 
 describe("efuzz should", () => {
@@ -275,5 +274,37 @@ describe("efuzz should", () => {
     await expect(promise).rejects.toThrowError(
       `Error: eFuzz search failed due to '${errorMessage}'`
     );
+  });
+
+  it("returns the score along with matches if the 'includeScores' flag is enabled", async () => {
+    const records = [
+      { name: "apple", category: "fruit", price: 1.2 },
+      { name: "application", category: "software", price: 99.99 },
+      { name: "orange", category: "fruit", price: 0.8 },
+      { name: "banana", category: "fruit", price: 1.0 },
+      { name: "grapes", category: "fruit", price: 2.5 },
+      { name: "mango", category: "fruit", price: 1.8 },
+      { name: "kiwi", category: "fruit", price: 2.2 },
+      { name: "peach", category: "fruit", price: 1.5 },
+      { name: "pear", category: "fruit", price: 1.3 },
+      { name: "plum", category: "fruit", price: 1.0 },
+      { name: "pineapple", category: "fruit", price: 3.0 },
+    ];
+    const search = efuzz(records);
+    const results = await search("appl", {
+      threshold: 0,
+      count: 2,
+      includeScores: true,
+    });
+    expect(results).toEqual([
+      {
+        record: { name: "apple", category: "fruit", price: 1.2 },
+        score: expect.any(Number),
+      },
+      {
+        record: { name: "application", category: "software", price: 99.99 },
+        score: expect.any(Number),
+      },
+    ]);
   });
 });
