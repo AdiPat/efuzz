@@ -332,4 +332,54 @@ describe("efuzz should", () => {
       "Count (12) cannot be greater than the number of records (11)."
     );
   });
+
+  it("uses a custom scoring function if provided", async () => {
+    const records = [
+      { name: "apple", category: "fruit", price: 1.2 },
+      { name: "application", category: "software", price: 99.99 },
+      { name: "orange", category: "fruit", price: 0.8 },
+      { name: "banana", category: "fruit", price: 1.0 },
+      { name: "grapes", category: "fruit", price: 2.5 },
+      { name: "mango", category: "fruit", price: 1.8 },
+      { name: "kiwi", category: "fruit", price: 2.2 },
+      { name: "peach", category: "fruit", price: 1.5 },
+      { name: "pear", category: "fruit", price: 1.3 },
+      { name: "plum", category: "fruit", price: 1.0 },
+      { name: "pineapple", category: "fruit", price: 3.0 },
+    ];
+    const search = efuzz(records);
+
+    const customScoringFunction = (a: string, b: string): number => {
+      if (!a || !b) return 0;
+      const maxLength = Math.max(a.length, b.length);
+      const matchCount = [...a].filter((char) => b.includes(char)).length;
+      const normalizedMatch = matchCount / maxLength;
+      const lengthDifference = Math.abs(a.length - b.length);
+      const normalizedLengthDifference = lengthDifference / maxLength;
+      const similarityScore = Math.max(
+        0,
+        normalizedMatch - normalizedLengthDifference
+      );
+      return similarityScore;
+    };
+
+    const results = await search("appl", {
+      threshold: 0,
+      count: 2,
+      includeScores: true,
+      scoreFunction: customScoringFunction,
+    });
+    expect(results).toBeDefined();
+    expect(results.length).toBeGreaterThanOrEqual(2);
+    expect(results).toEqual([
+      {
+        record: expect.any(Object),
+        score: expect.any(Number),
+      },
+      {
+        record: expect.any(Object),
+        score: expect.any(Number),
+      },
+    ]);
+  });
 });
