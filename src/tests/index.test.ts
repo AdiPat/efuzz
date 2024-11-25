@@ -307,4 +307,29 @@ describe("efuzz should", () => {
       },
     ]);
   });
+
+  it("throws an error if count is greater than number of records", async () => {
+    const records = [
+      { name: "apple", category: "fruit", price: 1.2 },
+      { name: "application", category: "software", price: 99.99 },
+      { name: "orange", category: "fruit", price: 0.8 },
+      { name: "banana", category: "fruit", price: 1.0 },
+      { name: "grapes", category: "fruit", price: 2.5 },
+      { name: "mango", category: "fruit", price: 1.8 },
+      { name: "kiwi", category: "fruit", price: 2.2 },
+      { name: "peach", category: "fruit", price: 1.5 },
+      { name: "pear", category: "fruit", price: 1.3 },
+      { name: "plum", category: "fruit", price: 1.0 },
+      { name: "pineapple", category: "fruit", price: 3.0 },
+    ];
+    const search = efuzz(records);
+    const results = search("appl", {
+      threshold: 0,
+      count: 12,
+      includeScores: true,
+    });
+    expect(results).rejects.toThrowError(
+      "Count (12) cannot be greater than the number of records (11)."
+    );
+  });
 });
