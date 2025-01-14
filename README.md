@@ -14,6 +14,7 @@
 ```bash
 npm install efuzz
 ```
+**NOTE:** This wont work. The package is not published on npm yet, follow the instructions for local setup.
 
 ## Usage
 
